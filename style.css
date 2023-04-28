@@ -1,0 +1,22 @@
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 60vw;
+    padding: 20px;
+    margin: 0 auto;
+    border: 1px solid #ff8a8a;
+    background: linear-gradient(#ffcfcf, #ffeded);
+  }
+
+  .keyboard-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .input-field {
+      height: 100px;
+      margin: 5px;
+      padding: 10px;
+      font-size: 20px;
+    }
