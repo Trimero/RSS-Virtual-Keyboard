@@ -1,22 +1,33 @@
 .main-wrapper {
     display: flex;
     flex-direction: column;
-    max-width: 60vw;
+    align-items: center;
+    max-width: 1200px;
     padding: 20px;
     margin: 0 auto;
     border: 1px solid #ff8a8a;
-    background: linear-gradient(#ffcfcf, #ffeded);
+    background: linear-gradient(hsl(0, 100%, 88%), #ffeded);
   }
 
   .keyboard-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      max-width: 600px;
-      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 50px);
+      gap: 10px;
+      max-width: 920px;
     }
 
+    textarea {
+      box-shadow: inset 0px 0px 15px rgba(243, 189, 189, 1);
+      border: #f0baba;
+    }
+
+textarea:focus-visible {
+  outline-color: pink;
+  outline-width: 4px;
+  outline-style: outset;
+}
     .input-field {
+      width: 90%;
       height: 100px;
       margin: 5px;
       padding: 10px;
@@ -24,11 +35,11 @@
     }
 
     .keyboard-button {
-      width: 50px;
+      min-width: 50px;
       height: 50px;
       margin: 5px;
       border: none;
-      background-color: #ddd;
+      background-color: #f0baba;
       font-size: 20px;
       display: flex;
       justify-content: center;
@@ -36,13 +47,36 @@
     }
 
     .keyboard-button:hover {
-      background-color: #ccc;
+      background-color: #f7d5d5;
     }
 
     .keyboard-button:active {
-      background-color: #bbb;
+      background-color: #ee8c8c;
     }
 
     .keyboard-button-active {
-      background-color: #bbb;
+      background-color: #ee8c8c;
+    }
+
+    .keyboard-button:focus-visible {
+      outline-color: pink;
+      outline-width: 4px;
+      outline-style: outset;
+    }
+
+    .keyboard-button:nth-child(14),
+    .keyboard-button:nth-child(15),
+    .keyboard-button:nth-child(29),
+    .keyboard-button:nth-child(41),
+    .keyboard-button:nth-child(42),
+    .keyboard-button:nth-child(54),
+    .keyboard-button:nth-child(55),
+    .keyboard-button:nth-child(60) {
+      width: 100%;
+      grid-column: span 2;
+    }
+
+    .keyboard-button:nth-child(58) {
+      width: 100%;
+      grid-column: span 4;
     }
