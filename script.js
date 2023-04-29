@@ -16,65 +16,84 @@ const keys = [
     'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter', 'Shift',
     'z', 'x', 'c', 'v', 'b', 'n', 'm', '.', ',', '/', '\u2191', 'Shift', 'Ctrl',
     'Win', 'Alt', ' ', 'Alt', 'Ctrl', '\u2190', '\u2193', '\u2192'
-  ];
+];
 
-  const keysUpperCaseEng = [
+const keysUpperCaseEng = [
     '~','!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace', 'Tab',
     'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', 'Del', 'CapsLock',
     'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter', 'Shift',
     'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '\u2191', 'Shift', 'Ctrl',
     'Win', 'Alt', ' ', 'Alt', 'Ctrl', '\u2190', '\u2193', '\u2192'
-  ];
+];
 
 let isShiftPressed = false;
-//функция нажатия для клавиатуры
+let isCapsLockPressed = false;
+
+// функция нажатия для клавиатуры
 function keyDownUp(button, selector) {
-  document.addEventListener("keydown", (e) => {
-    if (e.key === button) {
-      const button = document.querySelector(selector);
-      button.classList.add("keyboard-button-active");
-      document.addEventListener("keyup", () => {
-        button.classList.remove("keyboard-button-active");
-      });
-    } else if (e.key === "Shift") {
-      isShiftPressed = true;
-      const keyboardBtns = document.querySelectorAll(".keyboard-button");
-      for (let i = 0; i < keyboardBtns.length; i++) {
-        keyboardBtns[i].textContent = keysUpperCaseEng[i];
-      }
-    }
-  });
-  document.addEventListener("keyup", (e) => {
-    if (e.key === "Shift") {
-      isShiftPressed = false;
-      const keyboardBtns = document.querySelectorAll(".keyboard-button");
-      for (let i = 0; i < keyboardBtns.length; i++) {
-        keyboardBtns[i].textContent = keys[i];
-      }
-    }
-  });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === button) {
+            const button = document.querySelector(selector);
+            button.classList.add('keyboard-button-active');
+            document.addEventListener('keyup', () => {
+                button.classList.remove('keyboard-button-active');
+            });
+        } else if (e.key === "Shift") {
+            isShiftPressed = true;
+            const keyboardBtns = document.querySelectorAll('.keyboard-button');
+            for (let i = 0; i < keyboardBtns.length; i++) {
+                keyboardBtns[i].textContent = keysUpperCaseEng[i];
+            }
+        } else if (e.key === "CapsLock") {
+            isCapsLockPressed = !isCapsLockPressed;
+            const letterKeys = document.querySelectorAll('.keyboard-button:not(.space):not(.special):not(.caps):not(.tab):not(.shift)');
+            let ignoregKeys = ['`', '-', '=', ',', '.', '/', ';', "'", '/', '[', ']']
+            if (isCapsLockPressed) {
+                for (let i = 0; i < letterKeys.length; i++) {
+                    if (!isNaN(parseInt(keys[i])) || ignoregKeys.includes(keys[i])) {
+                      letterKeys[i].textContent = keys[i];
+                    } else {
+                    letterKeys[i].textContent = keysUpperCaseEng[i];
+                }
+              }
+            } else {
+                for (let i = 0; i < letterKeys.length; i++) {
+                    letterKeys[i].textContent = keys[i];
+                }
+            }
+        }
+    });
+    document.addEventListener('keyup', (e) => {
+        if (e.key === "Shift") {
+            isShiftPressed = false;
+            const keyboardBtns = document.querySelectorAll('.keyboard-button');
+            for (let i = 0; i < keyboardBtns.length; i++) {
+                keyboardBtns[i].textContent = keys[i];
+            }
+        }
+    });
 }
 
-  // создал клаву добавил кнопки события в текстарию
-  keys.forEach((key) => {
+// создал клаву добавил кнопки события в текстарию
+keys.forEach((key) => {
     const button = document.createElement("button");
     button.textContent = key;
     button.classList.add("keyboard-button");
     keyboardContainer.append(button);
 
     button.addEventListener("click", () => {
-      inputTextarea.value += key;
+        inputTextarea.value += key;
     });
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === key && e.key !== 'Backspace' && e.key !== 'Tab' && e.key !== 'CapsLock' && e.key !== 'Delete' && e.key !== 'Enter' && e.key !== 'Shift' && e.key !== 'Control' && e.key !== 'Meta' && e.key !== 'Alt') {
-        button.classList.add('keyboard-button-active');
-        document.addEventListener('keyup', () => {
-          button.classList.remove('keyboard-button-active');
-        });
-        e.preventDefault();
-        inputTextarea.value += key;
-      }
+    inputTextarea.addEventListener("keydown", (e) => {
+        if (e.key === key && e.key !== 'Backspace' && e.key !== 'Tab' && e.key !== 'CapsLock' && e.key !== 'Delete' && e.key !== 'Enter' && e.key !== 'Shift' && e.key !== 'Control' && e.key !== 'Meta' && e.key !== 'Alt') {
+            button.classList.add('keyboard-button-active');
+            document.addEventListener('keyup', () => {
+                button.classList.remove('keyboard-button-active');
+            });
+            e.preventDefault();
+            inputTextarea.value += isCapsLockPressed || isShiftPressed ? key.toUpperCase() : key;
+        }
     });
 
     keyDownUp('Backspace', '.keyboard-button:nth-child(14)');
@@ -93,4 +112,4 @@ function keyDownUp(button, selector) {
     keyDownUp('ArrowLeft', '.keyboard-button:nth-child(61)');
     keyDownUp('ArrowDown', '.keyboard-button:nth-child(62)');
     keyDownUp('ArrowRight', '.keyboard-button:nth-child(63)')
-  });
+});
