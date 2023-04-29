@@ -26,6 +26,14 @@ const keysUpperCaseEng = [
     'Win', 'Alt', ' ', 'Alt', 'Ctrl', '\u2190', '\u2193', '\u2192'
 ];
 
+const keysRu = [
+  'ё','1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab',
+    'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'Del', 'CapsLock',
+    'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter', 'Shift',
+    'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '\u2191', 'Shift', 'Ctrl',
+    'Win', 'Alt', ' ', 'Alt', 'Ctrl', '\u2190', '\u2193', '\u2192'
+]
+
 let isShiftPressed = false;
 let isCapsLockPressed = false;
 
@@ -38,41 +46,49 @@ function keyDownUp(button, selector) {
             document.addEventListener('keyup', () => {
                 button.classList.remove('keyboard-button-active');
             });
-        } else if (e.key === "Shift") {
-            isShiftPressed = true;
-            const keyboardBtns = document.querySelectorAll('.keyboard-button');
-            for (let i = 0; i < keyboardBtns.length; i++) {
-                keyboardBtns[i].textContent = keysUpperCaseEng[i];
-            }
-        } else if (e.key === "CapsLock") {
-            isCapsLockPressed = !isCapsLockPressed;
-            const letterKeys = document.querySelectorAll('.keyboard-button:not(.space):not(.special):not(.caps):not(.tab):not(.shift)');
-            let ignoregKeys = ['`', '-', '=', ',', '.', '/', ';', "'", '/', '[', ']']
-            if (isCapsLockPressed) {
-                for (let i = 0; i < letterKeys.length; i++) {
-                    if (!isNaN(parseInt(keys[i])) || ignoregKeys.includes(keys[i])) {
-                      letterKeys[i].textContent = keys[i];
-                    } else {
-                    letterKeys[i].textContent = keysUpperCaseEng[i];
-                }
-              }
-            } else {
-                for (let i = 0; i < letterKeys.length; i++) {
-                    letterKeys[i].textContent = keys[i];
-                }
-            }
         }
-    });
-    document.addEventListener('keyup', (e) => {
-        if (e.key === "Shift") {
-            isShiftPressed = false;
-            const keyboardBtns = document.querySelectorAll('.keyboard-button');
-            for (let i = 0; i < keyboardBtns.length; i++) {
-                keyboardBtns[i].textContent = keys[i];
-            }
-        }
-    });
+});
 }
+
+//сложные клавиши
+
+function hardKeys() {
+  document.addEventListener('keydown', (e) => {
+    if (e.key === "Shift") {
+      isShiftPressed = true;
+      const keyboardBtns = document.querySelectorAll('.keyboard-button');
+      for (let i = 0; i < keyboardBtns.length; i++) {
+          keyboardBtns[i].textContent = keysUpperCaseEng[i];
+      }
+  } else if (e.key === "CapsLock") {
+      isCapsLockPressed = !isCapsLockPressed;
+      const letterKeys = document.querySelectorAll('.keyboard-button:not(.space):not(.special):not(.caps):not(.tab):not(.shift)');
+      let ignoregKeys = ['`', '-', '=', ',', '.', '/', ';', "'", '/', '[', ']']
+      if (isCapsLockPressed) {
+          for (let i = 0; i < letterKeys.length; i++) {
+              if (!isNaN(parseInt(keys[i])) || ignoregKeys.includes(keys[i])) {
+                letterKeys[i].textContent = keys[i];
+              } else {
+              letterKeys[i].textContent = keysUpperCaseEng[i];
+          }
+        }
+      } else {
+          for (let i = 0; i < letterKeys.length; i++) {
+              letterKeys[i].textContent = keys[i];
+          }
+      }
+  }
+});
+document.addEventListener('keyup', (e) => {
+  if (e.key === "Shift") {
+      isShiftPressed = false;
+      const keyboardBtns = document.querySelectorAll('.keyboard-button');
+      for (let i = 0; i < keyboardBtns.length; i++) {
+          keyboardBtns[i].textContent = keys[i];
+      }
+  }
+});
+ }
 
 // создал клаву добавил кнопки события в текстарию
 keys.forEach((key) => {
@@ -92,10 +108,12 @@ keys.forEach((key) => {
                 button.classList.remove('keyboard-button-active');
             });
             e.preventDefault();
-            inputTextarea.value += isCapsLockPressed || isShiftPressed ? key.toUpperCase() : key;
+            inputTextarea.value += isCapsLockPressed ? key.toUpperCase() : key;
         }
     });
+});
 
+    hardKeys()
     keyDownUp('Backspace', '.keyboard-button:nth-child(14)');
     keyDownUp('Tab', '.keyboard-button:nth-child(15)');
     keyDownUp('Delete','.keyboard-button:nth-child(28)');
@@ -111,5 +129,4 @@ keys.forEach((key) => {
     keyDownUp('ArrowUp', '.keyboard-button:nth-child(53)');
     keyDownUp('ArrowLeft', '.keyboard-button:nth-child(61)');
     keyDownUp('ArrowDown', '.keyboard-button:nth-child(62)');
-    keyDownUp('ArrowRight', '.keyboard-button:nth-child(63)')
-});
+    keyDownUp('ArrowRight', '.keyboard-button:nth-child(63)');
