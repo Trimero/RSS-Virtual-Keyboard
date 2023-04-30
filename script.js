@@ -151,10 +151,14 @@ keys.forEach((key) => {
             }
         }
         if (key === 'Shift') {
+            if (isShiftPressed === false) {
                 isShiftPressed = true;
                 pressedShift();
+            } else if (isShiftPressed === true) {
+                releasedShift()
+                isShiftPressed = false;
+            }
         }
-        // TODO ДОДЕЛАТЬ КЛИК НА ШИФТЕ
     });
 
     inputTextarea.addEventListener("keydown", (e) => {
