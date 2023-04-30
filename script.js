@@ -17,7 +17,7 @@ const keys = [
     '`','1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab',
     'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'Del', 'CapsLock',
     'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter', 'Shift',
-    'z', 'x', 'c', 'v', 'b', 'n', 'm', '.', ',', '/', '\u2191', 'Shift', 'Ctrl',
+    'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '\u2191', 'Shift', 'Ctrl',
     'Win', 'Alt', ' ', 'Alt', 'Ctrl', '\u2190', '\u2193', '\u2192'
 ];
 
@@ -74,6 +74,8 @@ function hardKeys() {
     if (e.key === "Shift") {
       isShiftPressed = true;
       pressedShift();
+      const buttonShift = document.querySelector('.keyboard-button:nth-child(42)');
+            buttonShift.classList.add('keyboard-button-active');
     }
     if (e.key === "CapsLock") {
       isCapsLockPressed = !isCapsLockPressed;
@@ -87,8 +89,8 @@ function hardKeys() {
             letterKeys[i].textContent = keys[i];
           } else {
             letterKeys[i].textContent = keysUpperCaseEng[i];
-            const button = document.querySelector('.keyboard-button:nth-child(29)');
-            button.classList.add('keyboard-button-active');
+            const buttonCaps = document.querySelector('.keyboard-button:nth-child(29)');
+            buttonCaps.classList.add('keyboard-button-active');
           }
         }
       } else {
@@ -108,6 +110,8 @@ function hardKeys() {
     if (e.key === "Shift") {
       isShiftPressed = false;
       releasedShift();
+      const buttonShift = document.querySelector('.keyboard-button:nth-child(42)');
+            buttonShift.classList.remove('keyboard-button-active');
     }
   });
 }
@@ -185,12 +189,12 @@ keys.forEach((key) => {
 
     inputTextarea.addEventListener("keydown", (e) => {
         if (e.key === key && e.key !== 'Backspace' && e.key !== 'Tab' && e.key !== 'CapsLock' && e.key !== 'Delete' && e.key !== 'Enter' && e.key !== 'Shift' && e.key !== 'Control' && e.key !== 'Meta' && e.key !== 'Alt') {
+            e.preventDefault();
+            inputTextarea.value += isCapsLockPressed ? key.toUpperCase() : key;
             button.classList.add('keyboard-button-active');
             document.addEventListener('keyup', () => {
                 button.classList.remove('keyboard-button-active');
             });
-            e.preventDefault();
-            inputTextarea.value += isCapsLockPressed ? key.toUpperCase() : key;
         }
     });
 });
@@ -200,8 +204,6 @@ keys.forEach((key) => {
     keyDownUp('Tab', '.keyboard-button:nth-child(15)');
     keyDownUp('Delete','.keyboard-button:nth-child(28)');
     keyDownUp('Enter', '.keyboard-button:nth-child(41)');
-    keyDownUp('Shift', '.keyboard-button:nth-child(42)');
-    keyDownUp('Shift', '.keyboard-button:nth-child(54)');
     keyDownUp('Control', '.keyboard-button:nth-child(55)');
     keyDownUp('Meta', '.keyboard-button:nth-child(56)');
     keyDownUp('Alt', '.keyboard-button:nth-child(57)');
@@ -211,3 +213,42 @@ keys.forEach((key) => {
     keyDownUp('ArrowLeft', '.keyboard-button:nth-child(61)');
     keyDownUp('ArrowDown', '.keyboard-button:nth-child(62)');
     keyDownUp('ArrowRight', '.keyboard-button:nth-child(63)');
+    keyDownUp('Q', '.keyboard-button:nth-child(16)');
+    keyDownUp('W', '.keyboard-button:nth-child(17)');
+    keyDownUp('E', '.keyboard-button:nth-child(18)');
+    keyDownUp('R', '.keyboard-button:nth-child(19)');
+    keyDownUp('T', '.keyboard-button:nth-child(20)');
+    keyDownUp('Y', '.keyboard-button:nth-child(21)');
+    keyDownUp('U', '.keyboard-button:nth-child(22)');
+    keyDownUp('I', '.keyboard-button:nth-child(23)');
+    keyDownUp('O', '.keyboard-button:nth-child(24)');
+    keyDownUp('P', '.keyboard-button:nth-child(25)');
+    keyDownUp('A', '.keyboard-button:nth-child(30)');
+    keyDownUp('S', '.keyboard-button:nth-child(31)');
+    keyDownUp('D', '.keyboard-button:nth-child(32)');
+    keyDownUp('F', '.keyboard-button:nth-child(33)');
+    keyDownUp('G', '.keyboard-button:nth-child(34)');
+    keyDownUp('H', '.keyboard-button:nth-child(35)');
+    keyDownUp('J', '.keyboard-button:nth-child(36)');
+    keyDownUp('K', '.keyboard-button:nth-child(37)');
+    keyDownUp('L', '.keyboard-button:nth-child(38)');
+    keyDownUp('Z', '.keyboard-button:nth-child(43)');
+    keyDownUp('X', '.keyboard-button:nth-child(44)');
+    keyDownUp('C', '.keyboard-button:nth-child(45)');
+    keyDownUp('V', '.keyboard-button:nth-child(46)');
+    keyDownUp('B', '.keyboard-button:nth-child(47)');
+    keyDownUp('N', '.keyboard-button:nth-child(48)');
+    keyDownUp('M', '.keyboard-button:nth-child(49)');
+    keyDownUp('~', '.keyboard-button:nth-child(1)');
+    keyDownUp('!', '.keyboard-button:nth-child(2)');
+    keyDownUp('@', '.keyboard-button:nth-child(3)');
+    keyDownUp('#', '.keyboard-button:nth-child(4)');
+    keyDownUp('$', '.keyboard-button:nth-child(5)');
+    keyDownUp('%', '.keyboard-button:nth-child(6)');
+    keyDownUp('^', '.keyboard-button:nth-child(7)');
+    keyDownUp('&', '.keyboard-button:nth-child(8)');
+    keyDownUp('*', '.keyboard-button:nth-child(9)');
+    keyDownUp('(', '.keyboard-button:nth-child(10)');
+    keyDownUp(')', '.keyboard-button:nth-child(11)');
+    keyDownUp('_', '.keyboard-button:nth-child(12)');
+    keyDownUp('+', '.keyboard-button:nth-child(13)');
