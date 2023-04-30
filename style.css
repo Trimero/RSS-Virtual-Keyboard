@@ -23,8 +23,7 @@
 
 textarea:focus-visible {
   outline-color: pink;
-  outline-width: 4px;
-  outline-style: outset;
+  outline-style: none;
 }
     .input-field {
       width: 90%;

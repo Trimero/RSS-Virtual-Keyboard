@@ -10,6 +10,9 @@ const keyboardContainer = document.createElement('div');
 keyboardContainer.classList.add('keyboard-container');
 mainWrapper.append(keyboardContainer);
 
+window.onload = () => { inputTextarea.focus(); }
+window.onclick = () => { inputTextarea.focus() }
+
 const keys = [
     '`','1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab',
     'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'Del', 'CapsLock',
@@ -58,7 +61,6 @@ function pressedShift() {
 }
 
 function releasedShift() {
-        isShiftPressed = false;
         const keyboardBtns = document.querySelectorAll('.keyboard-button');
         for (let i = 0; i < keyboardBtns.length; i++) {
             keyboardBtns[i].textContent = keys[i];
@@ -69,13 +71,13 @@ function releasedShift() {
 
 function hardKeys() {
   document.addEventListener('keydown', (e) => {
-    if (e.key === "Shift") {
+    if (e.key === 'Shift') {
       isShiftPressed = true;
       const keyboardBtns = document.querySelectorAll('.keyboard-button');
       for (let i = 0; i < keyboardBtns.length; i++) {
           keyboardBtns[i].textContent = keysUpperCaseEng[i];
       }
-  } else if (e.key === "CapsLock") {
+  } else if (e.key === 'CapsLock') {
       isCapsLockPressed = !isCapsLockPressed;
       const letterKeys = document.querySelectorAll('.keyboard-button:not(.space):not(.special):not(.caps):not(.tab):not(.shift)');
       let ignoregKeys = ['`', '-', '=', ',', '.', '/', ';', "'", '/', '[', ']']
@@ -95,7 +97,7 @@ function hardKeys() {
   }
 });
 document.addEventListener('keyup', (e) => {
-  if (e.key === "Shift") {
+  if (e.key === 'Shift') {
       isShiftPressed = false;
       const keyboardBtns = document.querySelectorAll('.keyboard-button');
       for (let i = 0; i < keyboardBtns.length; i++) {
@@ -114,12 +116,22 @@ keys.forEach((key) => {
 
 //события для мыши
     button.addEventListener('click', () => {
+        inputTextarea.focus();
         if (key !== 'Backspace' && key !== 'Del' && key !== 'Tab' && key !== 'CapsLock' && key !== 'Enter' && key !== 'Shift' && key !== 'Ctrl' && key !== 'Win' && key !== 'Alt' && key !== '\u2191' && key !== '\u2193' && key !== '\u2192' && key !== '\u2190') {
             inputTextarea.value += key;
         }
         if (key === 'Backspace') {
-            inputTextarea.value = inputTextarea.value.slice(0, -1)
+            const startPos = inputTextarea.selectionStart;
+            inputTextarea.value = inputTextarea.value.slice(0, startPos - 1) + inputTextarea.value.slice(inputTextarea.selectionStart);
+            inputTextarea.setSelectionRange(startPos - 1, startPos - 1);
         }
+
+        if (key === 'Del') {
+            const startPos = inputTextarea.selectionStart;
+            inputTextarea.value = inputTextarea.value.slice(0, startPos) + inputTextarea.value.slice(inputTextarea.selectionStart + 1);
+            inputTextarea.setSelectionRange(startPos, startPos);
+        }
+
         if (key === "CapsLock") {
             isCapsLockPressed = !isCapsLockPressed;
             const letterKeys = document.querySelectorAll('.keyboard-button:not(.space):not(.special):not(.caps):not(.tab):not(.shift)');
@@ -139,10 +151,8 @@ keys.forEach((key) => {
             }
         }
         if (key === 'Shift') {
-            if (!isShiftPressed) {
                 isShiftPressed = true;
                 pressedShift();
-            }
         }
         // TODO ДОДЕЛАТЬ КЛИК НА ШИФТЕ
     });
