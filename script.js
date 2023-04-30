@@ -88,17 +88,22 @@ document.addEventListener('keyup', (e) => {
       }
   }
 });
- }
+}
 
 // создал клаву добавил кнопки события в текстарию
 keys.forEach((key) => {
     const button = document.createElement("button");
     button.textContent = key;
-    button.classList.add("keyboard-button");
+    button.classList.add('keyboard-button');
     keyboardContainer.append(button);
 
-    button.addEventListener("click", () => {
-        inputTextarea.value += key;
+    button.addEventListener('click', () => {
+        if (key !== 'Backspace' && key !== 'Del' && key !== 'Tab' && key !== 'CapsLock' && key !== 'Enter' && key !== 'Shift' && key !== 'Ctrl' && key !== 'Win' && key !== 'Alt' && key !== '\u2191' && key !== '\u2193' && key !== '\u2192' && key !== '\u2190') {
+            inputTextarea.value += key;
+        }
+        if (key === 'Backspace') {
+            inputTextarea.value = inputTextarea.value.slice(0, -1)
+        }
     });
 
     inputTextarea.addEventListener("keydown", (e) => {
