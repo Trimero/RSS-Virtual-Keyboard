@@ -87,12 +87,16 @@ function hardKeys() {
             letterKeys[i].textContent = keys[i];
           } else {
             letterKeys[i].textContent = keysUpperCaseEng[i];
+            const button = document.querySelector('.keyboard-button:nth-child(29)');
+            button.classList.add('keyboard-button-active');
           }
         }
       } else {
         for (let i = 0; i < letterKeys.length; i++) {
           letterKeys[i].textContent = keys[i];
         }
+        const button = document.querySelector('.keyboard-button:nth-child(29)');
+        button.classList.remove('keyboard-button-active');
       }
     }
     if (e.key === "Tab") {
@@ -137,6 +141,11 @@ keys.forEach((key) => {
             inputTextarea.value += '    '
         }
 
+        if (key === 'Enter') {
+            const startPos = inputTextarea.selectionStart;
+            inputTextarea.value = inputTextarea.value.substring(0, startPos) + '\n' + inputTextarea.value.substring(inputTextarea.selectionEnd);
+        }
+
         if (key === "CapsLock") {
             isCapsLockPressed = !isCapsLockPressed;
             const letterKeys = document.querySelectorAll('.keyboard-button:not(.space):not(.special):not(.caps):not(.tab):not(.shift)');
@@ -147,11 +156,15 @@ keys.forEach((key) => {
                       letterKeys[i].textContent = keys[i];
                     } else {
                     letterKeys[i].textContent = keysUpperCaseEng[i];
+                    const button = document.querySelector('.keyboard-button:nth-child(29)');
+                    button.classList.add('keyboard-button-active');
                 }
               }
             } else {
                 for (let i = 0; i < letterKeys.length; i++) {
                     letterKeys[i].textContent = keys[i];
+                    const button = document.querySelector('.keyboard-button:nth-child(29)');
+                    button.classList.remove('keyboard-button-active');
                 }
             }
         }
@@ -159,9 +172,13 @@ keys.forEach((key) => {
             if (isShiftPressed === false) {
                 isShiftPressed = true;
                 pressedShift();
+                const button = document.querySelector('.keyboard-button:nth-child(42)');
+                button.classList.add('keyboard-button-active');
             } else if (isShiftPressed === true) {
                 releasedShift()
                 isShiftPressed = false;
+                const button = document.querySelector('.keyboard-button:nth-child(42)');
+                button.classList.remove('keyboard-button-active');
             }
         }
     });
@@ -182,7 +199,6 @@ keys.forEach((key) => {
     keyDownUp('Backspace', '.keyboard-button:nth-child(14)');
     keyDownUp('Tab', '.keyboard-button:nth-child(15)');
     keyDownUp('Delete','.keyboard-button:nth-child(28)');
-    keyDownUp('CapsLock', '.keyboard-button:nth-child(29)');
     keyDownUp('Enter', '.keyboard-button:nth-child(41)');
     keyDownUp('Shift', '.keyboard-button:nth-child(42)');
     keyDownUp('Shift', '.keyboard-button:nth-child(54)');
