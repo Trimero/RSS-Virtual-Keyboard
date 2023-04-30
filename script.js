@@ -70,41 +70,42 @@ function releasedShift() {
 //сложные клавиши для клавиатуры
 
 function hardKeys() {
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Shift') {
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Shift") {
       isShiftPressed = true;
-      const keyboardBtns = document.querySelectorAll('.keyboard-button');
-      for (let i = 0; i < keyboardBtns.length; i++) {
-          keyboardBtns[i].textContent = keysUpperCaseEng[i];
-      }
-  } else if (e.key === 'CapsLock') {
+      pressedShift();
+    }
+    if (e.key === "CapsLock") {
       isCapsLockPressed = !isCapsLockPressed;
-      const letterKeys = document.querySelectorAll('.keyboard-button:not(.space):not(.special):not(.caps):not(.tab):not(.shift)');
-      let ignoregKeys = ['`', '-', '=', ',', '.', '/', ';', "'", '/', '[', ']']
+      const letterKeys = document.querySelectorAll(
+        ".keyboard-button:not(.space):not(.special):not(.caps):not(.tab):not(.shift)"
+      );
+      let ignoregKeys = ["`", "-", "=", ",", ".", "/", ";", "'", "/", "[", "]"];
       if (isCapsLockPressed) {
-          for (let i = 0; i < letterKeys.length; i++) {
-              if (!isNaN(parseInt(keys[i])) || ignoregKeys.includes(keys[i])) {
-                letterKeys[i].textContent = keys[i];
-              } else {
-              letterKeys[i].textContent = keysUpperCaseEng[i];
+        for (let i = 0; i < letterKeys.length; i++) {
+          if (!isNaN(parseInt(keys[i])) || ignoregKeys.includes(keys[i])) {
+            letterKeys[i].textContent = keys[i];
+          } else {
+            letterKeys[i].textContent = keysUpperCaseEng[i];
           }
         }
       } else {
-          for (let i = 0; i < letterKeys.length; i++) {
-              letterKeys[i].textContent = keys[i];
-          }
+        for (let i = 0; i < letterKeys.length; i++) {
+          letterKeys[i].textContent = keys[i];
+        }
       }
-  }
-});
-document.addEventListener('keyup', (e) => {
-  if (e.key === 'Shift') {
+    }
+    if (e.key === "Tab") {
+      e.preventDefault();
+      inputTextarea.value += "    ";
+    }
+  });
+  document.addEventListener("keyup", (e) => {
+    if (e.key === "Shift") {
       isShiftPressed = false;
-      const keyboardBtns = document.querySelectorAll('.keyboard-button');
-      for (let i = 0; i < keyboardBtns.length; i++) {
-          keyboardBtns[i].textContent = keys[i];
-      }
-  }
-});
+      releasedShift();
+    }
+  });
 }
 
 // создал клаву добавил кнопки события в текстарию
@@ -118,7 +119,7 @@ keys.forEach((key) => {
     button.addEventListener('click', () => {
         inputTextarea.focus();
         if (key !== 'Backspace' && key !== 'Del' && key !== 'Tab' && key !== 'CapsLock' && key !== 'Enter' && key !== 'Shift' && key !== 'Ctrl' && key !== 'Win' && key !== 'Alt' && key !== '\u2191' && key !== '\u2193' && key !== '\u2192' && key !== '\u2190') {
-            inputTextarea.value += key;
+            inputTextarea.value += isCapsLockPressed || isShiftPressed ? key.toUpperCase() : key;
         }
         if (key === 'Backspace') {
             const startPos = inputTextarea.selectionStart;
@@ -130,6 +131,10 @@ keys.forEach((key) => {
             const startPos = inputTextarea.selectionStart;
             inputTextarea.value = inputTextarea.value.slice(0, startPos) + inputTextarea.value.slice(inputTextarea.selectionStart + 1);
             inputTextarea.setSelectionRange(startPos, startPos);
+        }
+
+        if (key === 'Tab') {
+            inputTextarea.value += '    '
         }
 
         if (key === "CapsLock") {
