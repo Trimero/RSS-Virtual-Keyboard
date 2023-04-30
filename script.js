@@ -37,7 +37,7 @@ const keysRu = [
 let isShiftPressed = false;
 let isCapsLockPressed = false;
 
-// функция нажатия для клавиатуры
+// функция нажатия для клавиатуры (анимация)
 function keyDownUp(button, selector) {
     document.addEventListener('keydown', (e) => {
         if (e.key === button) {
@@ -50,7 +50,22 @@ function keyDownUp(button, selector) {
 });
 }
 
-//сложные клавиши
+function pressedShift() {
+    const keyboardBtns = document.querySelectorAll('.keyboard-button');
+      for (let i = 0; i < keyboardBtns.length; i++) {
+          keyboardBtns[i].textContent = keysUpperCaseEng[i];
+      }
+}
+
+function releasedShift() {
+        isShiftPressed = false;
+        const keyboardBtns = document.querySelectorAll('.keyboard-button');
+        for (let i = 0; i < keyboardBtns.length; i++) {
+            keyboardBtns[i].textContent = keys[i];
+        }
+}
+
+//сложные клавиши для клавиатуры
 
 function hardKeys() {
   document.addEventListener('keydown', (e) => {
@@ -97,6 +112,7 @@ keys.forEach((key) => {
     button.classList.add('keyboard-button');
     keyboardContainer.append(button);
 
+//события для мыши
     button.addEventListener('click', () => {
         if (key !== 'Backspace' && key !== 'Del' && key !== 'Tab' && key !== 'CapsLock' && key !== 'Enter' && key !== 'Shift' && key !== 'Ctrl' && key !== 'Win' && key !== 'Alt' && key !== '\u2191' && key !== '\u2193' && key !== '\u2192' && key !== '\u2190') {
             inputTextarea.value += key;
@@ -104,6 +120,31 @@ keys.forEach((key) => {
         if (key === 'Backspace') {
             inputTextarea.value = inputTextarea.value.slice(0, -1)
         }
+        if (key === "CapsLock") {
+            isCapsLockPressed = !isCapsLockPressed;
+            const letterKeys = document.querySelectorAll('.keyboard-button:not(.space):not(.special):not(.caps):not(.tab):not(.shift)');
+            let ignoregKeys = ['`', '-', '=', ',', '.', '/', ';', "'", '/', '[', ']']
+            if (isCapsLockPressed) {
+                for (let i = 0; i < letterKeys.length; i++) {
+                    if (!isNaN(parseInt(keys[i])) || ignoregKeys.includes(keys[i])) {
+                      letterKeys[i].textContent = keys[i];
+                    } else {
+                    letterKeys[i].textContent = keysUpperCaseEng[i];
+                }
+              }
+            } else {
+                for (let i = 0; i < letterKeys.length; i++) {
+                    letterKeys[i].textContent = keys[i];
+                }
+            }
+        }
+        if (key === 'Shift') {
+            if (!isShiftPressed) {
+                isShiftPressed = true;
+                pressedShift();
+            }
+        }
+        // TODO ДОДЕЛАТЬ КЛИК НА ШИФТЕ
     });
 
     inputTextarea.addEventListener("keydown", (e) => {
