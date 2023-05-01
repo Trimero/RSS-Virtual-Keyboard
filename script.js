@@ -220,7 +220,7 @@ keys.forEach((key) => {
                 button.classList.remove('keyboard-button-active');
             }
         }
-        if (key !== 'Backspace' && key !== 'Del' && key !== 'Tab' && key !== 'CapsLock' && key !== 'Enter' && key !== 'Shift' && key !== 'Ctrl' && key !== 'Win' && key !== 'Alt' && key !== '\u2191' && key !== '\u2193' && key !== '\u2192' && key !== '\u2190') {
+        if (key !== 'Backspace' && key !== 'Del' && key !== 'Tab' && key !== 'CapsLock' && key !== 'Enter' && key !== 'Shift' && key !== 'Ctrl' && key !== 'Win' && key !== 'Alt') {
           if (isCapsLockPressed) {
             inputTextarea.value += key.toUpperCase();
           } else if (isShiftPressed) {
