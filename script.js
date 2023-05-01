@@ -39,6 +39,26 @@ const keysRu = [
 
 let isShiftPressed = false;
 let isCapsLockPressed = false;
+let isRu = false;
+let isEng = false;
+
+function replaceKeys(keyArray) {
+  const keyboardBtns = document.querySelectorAll('.keyboard-button');
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey  && e.altKey) {
+      for (let i = 0; i < keyboardBtns.length; i++) {
+        keyboardBtns[i].textContent = keyArray[i];
+      }
+    }
+  });
+  document.addEventListener('keyup', (e) => {
+    if (e.ctrlKey  && e.altKey) {
+      for (let i = 0; i < keyboardBtns.length; i++) {
+        keyboardBtns[i].textContent = keyArray[i];
+      }
+    }
+  })
+}
 
 // функция нажатия для клавиатуры (анимация)
 function keyDownUp(button, selector) {
@@ -101,6 +121,17 @@ function hardKeys() {
         button.classList.remove('keyboard-button-active');
       }
     }
+
+    if (e.ctrlKey  && e.altKey) {
+      if (isRu === false) {
+      isRu = true;
+      replaceKeys(keysRu);
+    } else if (isRu === true) {
+      isRu = false
+      replaceKeys(keys)
+    }
+  }
+  
     if (e.key === "Tab") {
       e.preventDefault();
       inputTextarea.value += "    ";
@@ -126,9 +157,6 @@ keys.forEach((key) => {
 //события для мыши
     button.addEventListener('click', () => {
         inputTextarea.focus();
-        if (key !== 'Backspace' && key !== 'Del' && key !== 'Tab' && key !== 'CapsLock' && key !== 'Enter' && key !== 'Shift' && key !== 'Ctrl' && key !== 'Win' && key !== 'Alt' && key !== '\u2191' && key !== '\u2193' && key !== '\u2192' && key !== '\u2190') {
-            inputTextarea.value += isCapsLockPressed || isShiftPressed ? key.toUpperCase() : key;
-        }
         if (key === 'Backspace') {
             const startPos = inputTextarea.selectionStart;
             inputTextarea.value = inputTextarea.value.slice(0, startPos - 1) + inputTextarea.value.slice(inputTextarea.selectionStart);
@@ -184,6 +212,19 @@ keys.forEach((key) => {
                 const button = document.querySelector('.keyboard-button:nth-child(42)');
                 button.classList.remove('keyboard-button-active');
             }
+        }
+        if (key !== 'Backspace' && key !== 'Del' && key !== 'Tab' && key !== 'CapsLock' && key !== 'Enter' && key !== 'Shift' && key !== 'Ctrl' && key !== 'Win' && key !== 'Alt' && key !== '\u2191' && key !== '\u2193' && key !== '\u2192' && key !== '\u2190') {
+          if (isCapsLockPressed) {
+            inputTextarea.value += key.toUpperCase();
+          } else if (isShiftPressed) {
+            let upperCaseValue = keysUpperCaseEng[key];
+            if (upperCaseValue === undefined) {
+              upperCaseValue = key.toUpperCase();
+            }
+            inputTextarea.value += upperCaseValue;
+      } else {
+            inputTextarea.value += key;
+          }
         }
     });
 
