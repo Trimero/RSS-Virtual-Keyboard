@@ -1,3 +1,11 @@
+const descriptionEl = document.createElement('p');
+descriptionEl.classList.add('description');
+descriptionEl.textContent = `Привет, это клавиатура разрабатывалась в Windows. И для экономии твоего времени проверки расскажу немного о её недостатках: \n
+Переключение на русскую раскладку происходит при сочетании на клавиши Shift + Ctrl.. но сопровождается некорректной работой (╯°□°）╯︵ ┻━┻   \n
+В остальном с горем пополам она работает. \n
+PS: Извиняюсь за шрифт и цвет, девушка очень хотела именной такую`;
+document.body.insertBefore(descriptionEl, document.body.firstChild);
+
 const mainWrapper = document.createElement('div');
 mainWrapper.classList.add('main-wrapper');
 document.body.append(mainWrapper);
@@ -40,7 +48,6 @@ const keysRu = [
 let isShiftPressed = false;
 let isCapsLockPressed = false;
 let isRu = false;
-let isEng = false;
 
 function replaceKeys(keyArray) {
   const keyboardBtns = document.querySelectorAll('.keyboard-button');
@@ -91,7 +98,7 @@ function releasedShift() {
 
 function hardKeys() {
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Shift") {
+    if (e.key === "Shift" && isRu === false) {
       isShiftPressed = true;
       pressedShift();
       const buttonShift = document.querySelector('.keyboard-button:nth-child(42)');
@@ -131,14 +138,14 @@ function hardKeys() {
       replaceKeys(keys)
     }
   }
-  
+
     if (e.key === "Tab") {
       e.preventDefault();
       inputTextarea.value += "    ";
     }
   });
   document.addEventListener("keyup", (e) => {
-    if (e.key === "Shift") {
+    if (e.key === "Shift" && isRu === false) {
       isShiftPressed = false;
       releasedShift();
       const buttonShift = document.querySelector('.keyboard-button:nth-child(42)');
