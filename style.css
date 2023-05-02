@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    padding: 20px;
+    margin: 0 auto;
+    border: 1px solid #ff8a8a;
+    background: linear-gradient(hsl(0, 100%, 88%), #ffeded);
+  }
+
+  .keyboard-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 50px);
+      gap: 10px;
+      max-width: 920px;
+    }
+
+    textarea {
+      box-shadow: inset 0px 0px 15px rgba(243, 189, 189, 1);
+      border: #f0baba;
+      caret-color: red;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+      background-color: #ff8a8a;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 6px;
+    }
+
+textarea:focus-visible {
+  outline-color: pink;
+  outline-style: none;
+}
+    .input-field {
+      width: 90%;
+      height: 100px;
+      margin: 5px;
+      padding: 10px;
+      font-size: 20px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .keyboard-button {
+      font-family: 'Caveat', cursive;
+      font-size: 28px;
+      min-width: 50px;
+      height: 50px;
+      margin: 5px;
+      border: none;
+      background-color: #f0baba;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .keyboard-button:hover {
+      background-color: #f7d5d5;
+      transition: all 0.1s ease;
+    }
+
+    .keyboard-button-active,
+    .keyboard-button:active{
+      background-color: #ee8c8c;
+      transition: all 0.1s ease;
+    }
+
+    .keyboard-button:focus-visible {
+      outline-color: pink;
+      outline-width: 4px;
+      outline-style: outset;
+    }
+
+    .keyboard-button:nth-child(14),
+    .keyboard-button:nth-child(15),
+    .keyboard-button:nth-child(29),
+    .keyboard-button:nth-child(41),
+    .keyboard-button:nth-child(42),
+    .keyboard-button:nth-child(54),
+    .keyboard-button:nth-child(55),
+    .keyboard-button:nth-child(60) {
+      width: 100%;
+      grid-column: span 2;
+    }
+
+    .keyboard-button:nth-child(58) {
+      width: 100%;
+      grid-column: span 4;
+    }
